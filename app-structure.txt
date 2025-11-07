@@ -1,0 +1,11 @@
+|__ controllers
+|  |__ employee.controllers.js
+|__  midlewares
+|  |__ index.js
+|__ models
+|  |__ employee.model.js
+|__ services
+|  |__ employee.service.js
+|  |__ index.js
+|__ db.js
+|__ index.js
