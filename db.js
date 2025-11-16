@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'); // importar mongoose
 
-const dbUri = "mongodb+srv://admin:<admin1234>@cluster0.4khd2dh.mongodb.net/employee_db?appName=Cluster0"
+const dbUri = "mongodb+srv://admin:1234@cluster0.zduxlxi.mongodb.net/employee_db?appName=Cluster0"
 
 mongoose.set('strictQuery', false);
 

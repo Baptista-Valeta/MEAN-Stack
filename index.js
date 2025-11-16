@@ -11,9 +11,9 @@ const app = express(); // receba o valor retornado pelo método express
 
 // middleware
 app.use(bodyParser.json());
-app.use("/api/emplyees", employeeRoutes)
+app.use("/api/employees", employeeRoutes)
 
-
+// Função assíncrona que lida com a conexão ao mongoDB
 connectDb()
     .then(() => {
         console.log('db conectado com sucesso!');
