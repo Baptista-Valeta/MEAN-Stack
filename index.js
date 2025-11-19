@@ -6,12 +6,14 @@ const bodyParser = require('body-parser'); // Para converter qualquer pedido fei
 // local imports
 const connectDb = require('./db.js');
 const employeeRoutes = require("./controllers/employee.controller.js")
+const {errorHandler} = require('./midlewares')
 
 const app = express(); // receba o valor retornado pelo método express
 
 // middleware
 app.use(bodyParser.json());
-app.use("/api/employees", employeeRoutes)
+app.use("/api/employees", employeeRoutes);
+app.use(errorHandler);
 
 // Função assíncrona que lida com a conexão ao mongoDB
 connectDb()

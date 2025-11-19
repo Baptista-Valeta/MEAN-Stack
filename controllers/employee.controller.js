@@ -2,32 +2,49 @@ const express = require('express');
 const router = express.Router();
 
 const Employee = require("../models/employee.model");
+const { generateCrudMethods } = require('../services');
+const employeeCrud = generateCrudMethods(Employee);
+const {validateDbId, raiseRecord404Error} = require('../midlewares')
 
-router.get('/', (req, res) => {
-    Employee.find()
+router.get('/test', 
+    (req, res, next) => {next()},
+    (req, res) => {res.send('test')}
+
+)
+
+
+router.get('/', (req, res, next) => {
+    employeeCrud.getAll()
         .then(data => res.send(data))
-        .catch(err => console.log(err))
+        .catch(err => next(err))
 });
 
-router.get('/:id', (req, res) => {
-    //req.body
-    Employee.findById(req.params.id)
+router.get('/:id', validateDbId, (req, res, next) => {        
+    //req.params.id - id do usuário
+    employeeCrud.getById(req.params.id)
         .then(data => {
-            if(data) 
-                res.send(data);
-            else 
-                res.status(404).json({
-                    error: 'Nenhum registro encontrado para o _id : ' + req.params.id
-                })
+            if(data) res.send(data);
+            else raiseRecord404Error(req, res);
         })
-        .catch(err => console.log(err))
+        .catch(err => next(err))
+});
+
+router.post('/', (req, res, next) => {
+    //req.body
+    employeeCrud.creat(req.body)
+        .then(data => res.status(201).json(data))
+        .catch(err => next(err))
+});
+
+router.put('/id', validateDbId, (req, res) => {
+    employeeCrud.update(req.params.id, req.body)
+    .then(data => {
+        if(data) res.send(data);
+        else raiseRecord404Error(req, res);
+    })
+    .catch(err => next(err))
 })
 
-router.post('/', (req, res) => {
-    //req.body
-    Employee.create(req.body)
-        .then(data => res.status(201).json(data))
-        .catch(err => console.log(err))
-})
+router.delete('/id', validateDbId, (req, res) => {})
 
 module.exports = router;
